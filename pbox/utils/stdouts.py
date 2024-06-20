@@ -1,5 +1,3 @@
-import json
-
 class Result:
     def __init__(self, results, logs, error):
         self.results = results

@@ -1,7 +1,5 @@
 from jupyter_client import KernelManager
-from utils import Result, Logs, Error, Logger
-
-logger = Logger()
+from pbox.utils import Result, Logs, Error
 
 class CodeSandBox:
     def __init__(self):
@@ -22,7 +20,7 @@ class CodeSandBox:
             try:
                 msg = self.kc.get_iopub_msg(timeout=60)
             except Exception as e:
-                logger.error(f"Error getting message: {e}")
+                print(f"Error getting message: {e}")
                 break
 
             if msg['parent_header'].get('msg_id') != msg_id:
@@ -54,10 +52,10 @@ class CodeSandBox:
         try:
             self.kc.stop_channels()
         except Exception as e:
-            logger.error(f"Error stopping channels: {e}")
+            print(f"Error stopping channels: {e}")
         try:
             self.km.shutdown_kernel(now=True)
         except Exception as e:
-            logger.error(f"Error shutting down kernel: {e}")
+            print(f"Error shutting down kernel: {e}")
         del self.kc
         del self.km

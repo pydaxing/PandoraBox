@@ -2,7 +2,7 @@ from loguru import logger
 
 class Logger:
     def __new__(cls):
-        log_file_path = "/mnt/workspace/workgroup/lengmou/Demo/python-box/src/logs/python-box.log"
+        log_file_path = "~/.pybox/pybox.log"
         log_format = "<green>{time:YYYY-MM-DD HH:mm:ss}</green> | <level>{level: <8}</level> | <cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> - <level>{message}</level>"
         log_level = "DEBUG"
         log_rotation = "10 MB"

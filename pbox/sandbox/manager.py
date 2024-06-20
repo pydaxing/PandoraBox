@@ -3,10 +3,7 @@ import uuid
 from datetime import datetime, timedelta
 import threading
 
-from sandbox import CodeSandBox
-from utils import Logger
-
-logger = Logger()
+from .sand_box import CodeSandBox
 
 class CodeSandBoxManager:
     def __init__(self):
@@ -31,7 +28,7 @@ class CodeSandBoxManager:
 
             return kernel_id
         except Exception as e:
-            logger.error(str(e))
+            print(str(e))
             return None
     
     
@@ -42,7 +39,7 @@ class CodeSandBoxManager:
                 return f"No kernels found for {api_key}. Please create a kernel first."
             return kernel_ids
         except Exception as e:
-            logger.error(str(e))
+            print(str(e))
             return None
     
 
@@ -59,7 +56,7 @@ class CodeSandBoxManager:
             else:
                 return f"No kernels found for {api_key}. Please create a kernel first."
         except Exception as e:
-            logger.error(str(e))
+            print(str(e))
             return False
                 
 
@@ -71,5 +68,5 @@ class CodeSandBoxManager:
             else:
                 return f"No kernels found for {api_key}. Please create a kernel first."
         except Exception as e:
-            logger.error(str(e))
+            print(str(e))
             return False
