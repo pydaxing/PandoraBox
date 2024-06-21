@@ -32,7 +32,7 @@ class CodeSandBoxManager:
             return None
     
     
-    def get_kernel_ids_by_api_key(self, api_key):
+    def kernels(self, api_key):
         try:
             kernel_ids = self.api_key_to_kernel_ids.get(api_key, [])
             if not kernel_ids:  # 如果列表为空

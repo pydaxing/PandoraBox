@@ -95,7 +95,7 @@ def close_sandbox(api_key: str = Depends(validate_api_key), kernel_id: str = Dep
     
 @app.get('/kernels', status_code=200)
 def get_kernel_ids(api_key: str = Depends(validate_api_key)):
-    kernel_ids = sandbox_manager.get_kernel_ids_by_api_key(api_key)
+    kernel_ids = sandbox_manager.kernels(api_key)
     if not kernel_ids:
         print(f"Failed to get kernels. API_KEY: {api_key}")
         raise HTTPException(status_code=500, detail="Failed to get kernels.")

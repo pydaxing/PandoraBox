@@ -106,7 +106,7 @@ success
 #### Create Python SandBox
 You can create a Python sandbox as follows:
 ```commandline
-curl http://127.0.0.1:9501/create \
+$ curl http://127.0.0.1:9501/create \
 -H "API-KEY: your-api-key"
 ```
 ```json
@@ -120,13 +120,17 @@ You will receive a kernel_id, which is the unique identifier for the Python box.
 #### List Python SandBox
 The current Python environments that have been created can be queried in the following way.
 ```commandline
-$ curl https://pybox.alibaba-inc.com/kernels \
+$ curl http://127.0.0.1:9501/kernels \
 -H "API-KEY: your-api-key"
 ```
 ```json
-kernel_id_1
-...
-kernel_id_n
+{
+  "kernel_ids":[
+    "kernel_id_1", 
+    "kernel_id_2", 
+    "...", 
+    "kernel_id_n"]
+}
 ```
 
 
@@ -167,6 +171,7 @@ $ curl http://127.0.0.1:9501/execute \
 
 #### Close Python Sandbox
 When you don't need to use the Python environment, you can close it in time to reduce resource waste.
+
 ```commandline
 $ curl http://127.0.0.1:9501/close \
 -H "API-KEY: your-api-key" \
@@ -178,14 +183,73 @@ $ curl http://127.0.0.1:9501/close \
 }
 ```
 
+Each kernel, if not manually closed, will automatically shut down after 6 hours. This means that the maximum duration for each kernel is 6 hours. This is to avoid wasting resources. The current version does not support duration settings yet.
+
 ### Python Script
+You can directly import the pbox package in your Python script for use. If you don't need any Python environment management or API KEY authentication features, you can directly use CodeSandBox to create a Python environment and execute the code.
+```python
+from pbox import CodeSandBox
 
+code_sandbox = CodeSandBox()
+result = code_sandbox.execute_code("print('Hello, PandaroBox!')")
 
+print(str(result))
+print(result.logs.stdout)
+```
+```text
+Result(results=[], logs=Logs(stdout=['Hello, PandaroBox!'], stderr=[]), error=None)
+['Hello, PandaroBox!']
+```
 
+The returned result is a `Result` class, which you can view the specific content by using `str()`. The `results` contained within the `Result` is a list. `Logs` is also a class similar to `Result`, containing two lists: `stdout` and `stderr`. The `error` is `null` when the code executes normally, and it is an `Error` class when there is a code error, containing three attributes: `name`, `value`, and `traceback`. The values in `Result`, `Logs`, and `Error` can be accessed using the `.` operator, such as `result.logs.stdout`.
 
+`CodeSandBox` has the ability to remember the context of Python code until it is closed.
+```python
+from pbox import CodeSandBox
 
+code_sandbox = CodeSandBox()
+code_sandbox.execute_code("x = 'Hello, PandoraBox!'")
+result = code_sandbox.execute_code("print(x)")
 
+print(str(result))
+```
+```text
+Result(results=[], logs=Logs(stdout=['Hello, PandoraBox!'], stderr=[]), error=None)
+```
+If you no longer need it, you can directly close it.
 
+```python
+code_sandbox.close()
+```
 
+If you require an API KEY authentication mechanism and the mechanism for kernels to automatically close after 6 hours, you can use `CodeSandBoxManager` to create and close sandboxes as well as execute code.
+```python
+from pbox import CodeSandBoxManager
 
+csb_manager = CodeSandBoxManager()
 
+# creqte sandbox
+kernel_id = csb_manager.create_sandbox("your-api-key")
+
+# list sandbox
+csb_manager.kernels("your-api-key")
+
+# execute code
+result = csb_manager.execute_code (
+    "your-api-key",
+    "your-kernel-id",
+    "print('Hello, Pandaro Box!')"
+)
+
+# close sandbox, If you forget, it will automatically close after 6 hours.
+csb_manager.close_sandbox(
+    "your-api-key",
+    "your-kernel-id"
+)
+```
+
+## Contributing
+Feel free to contribute to this project. You can open an issue or submit a pull request.
+
+## Contact info
+You can contact at pydaxing@gmail.com

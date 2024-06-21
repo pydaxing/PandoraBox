@@ -59,3 +59,4 @@ class CodeSandBox:
             print(f"Error shutting down kernel: {e}")
         del self.kc
         del self.km
+        return None
