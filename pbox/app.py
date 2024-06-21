@@ -74,7 +74,7 @@ def execute_code(request: ExecuteRequest, api_key: str = Depends(validate_api_ke
         res = execution_result.json()
         res["API_KEY"] = api_key
         print(json.dumps(res, ensure_ascii=False, indent=4))
-        return {"result": res}
+        return res
     
 
     

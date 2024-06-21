@@ -136,9 +136,10 @@ You can now execute Python code in this Python Box：
 ```commandline
 $ curl http://127.0.0.1:9501/execute \
 -H "API-KEY: your-api-key" \
+-H "Content-Type: application/json; charset=utf-8" \
 -H "KERNEL-ID: your-kernel-id" \
 -d '{
-    "code": "print('Hello, Pandora Box!')"
+    "code": "print(\"Hello, Pandora Box!\")"
 }'
 ```
 ```json
