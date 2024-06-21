@@ -1,5 +1,5 @@
 # Pandora Box: A Revolutionary Open-Source Python Environment
-![](./20240621004653.jpg)
+![](./logo.jpg)
 In the era of Large Language Models (LLMs), Pandora Box emerges as a pioneering open-source Python package, specifically designed to empower developers and innovators in the creation of LLM-based applications and agents. This versatile tool is engineered to provide a robust and secure Python environment, facilitating the seamless integration and execution of LLM-driven projects. Completely free and easily deployable via pip install, Pandora Box is set to revolutionize the way developers approach LLM-based development.
 
 Key Advantages of Pandora Box:
@@ -117,10 +117,24 @@ curl http://127.0.0.1:9501/create \
 
 You will receive a kernel_id, which is the unique identifier for the Python box. If a kernel_id is returned after creation, it indicates that the creation was successful.
 
+#### List Python SandBox
+The current Python environments that have been created can be queried in the following way.
+```commandline
+$ curl https://pybox.alibaba-inc.com/kernels \
+-H "API-KEY: your-api-key"
+```
+```json
+kernel_id_1
+...
+kernel_id_n
+```
+
+
+
 #### Execute Python Code
 You can now execute Python code in this Python Box：
 ```commandline
-curl http://127.0.0.1:9501/execute \
+$ curl http://127.0.0.1:9501/execute \
 -H "API-KEY: your-api-key" \
 -H "KERNEL-ID: your-kernel-id" \
 -d '{
@@ -151,9 +165,19 @@ curl http://127.0.0.1:9501/execute \
 - `traceback`: Traceback of the error.
 
 #### Close Python Sandbox
+When you don't need to use the Python environment, you can close it in time to reduce resource waste.
+```commandline
+$ curl http://127.0.0.1:9501/close \
+-H "API-KEY: your-api-key" \
+-H "KERNEL-ID: your-kernel-id"
+```
+```json
+{
+  "message": "Sandbox Closed."
+}
+```
 
-
-
+### Python Script
 
 
 
