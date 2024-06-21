@@ -178,3 +178,5 @@ Test.java
 
 nohup.out
 
+MANIFEST.in
+setup.py
