@@ -15,7 +15,7 @@ Key Advantages of Pandora Box:
 
 - **Efficient Environment Management**: Create, execute, and close Python environments with unparalleled ease. Pandora Box streamlines the development process, enabling developers to focus on innovation rather than environment setup and management.
 
-- **Ideal for LLM-Based Agents**: Pandora Box is specifically tailored to meet the needs of LLM-based application development. It offers a secure, isolated environment for running untrusted code, ensuring that your LLM agents can operate safely and efficiently.
+- **Ideal for LLM-Based Agents**: Pandora Box is specifically tailored to meet the needs of LLM-based application development. It offers a secure environment for running python code, ensuring that your LLM agents can operate efficiently.
 
 Pandora Box is not just a Python package; it's a gateway to the future of LLM-based development. By offering a secure, easy-to-use, and completely open-source solution, it enables developers to explore the full potential of their LLM applications and agents. Whether you're creating a coding copilot, an AI data analyst, or any other LLM-powered tool, Pandora Box provides the foundation you need to innovate and excel in the LLM era.
 
