@@ -11,20 +11,6 @@ from .utils import new_api_key, look_api_key
 
 
 app = FastAPI()
-# 创建自定义 OpenAPI 函数
-def custom_openapi():
-    if app.openapi_schema:
-        return app.openapi_schema
-    openapi_schema = get_openapi(
-        title="Pandora Box",
-        version="1.1.0",  # 修改这里来自定义版本信息
-        description="",
-        routes=app.routes,
-    )
-    # openapi_schema["info"]["x-logo"] = {"url": ""}  # 示例：添加自定义 logo
-    app.openapi_schema = openapi_schema
-    return app.openapi_schema
-app.openapi = custom_openapi
 
 
 @app.on_event("startup")
@@ -210,10 +196,37 @@ def get_kernel_ids(api_key: str = Depends(validate_api_key)):
 def start(args):
     if args.server in ["0.0.0.0", "127.0.0.1"]:
         docs_url = f"http://127.0.0.1:{args.port}/docs"
+        server_url = f"http://127.0.0.1:{args.port}/"
     else:
         docs_url = f"http://{args.server}:{args.port}/docs"
+        server_url = f"http://{args.server}:{args.port}/"
+
+    def custom_openapi():
+        if app.openapi_schema:
+                return app.openapi_schema
+        openapi_schema = get_openapi(
+            title="Pandora Box",
+            version="1.1.1",  # 修改这里来自定义版本信息
+            description="",
+            routes=app.routes,
+        )
+        openapi_schema["servers"] = [
+            {
+                "url": server_url,
+                "description": "Pandora Box server"
+            }
+        ]
+        # openapi_schema["info"]["x-logo"] = {"url": ""}  # 示例：添加自定义 logo
+        app.openapi_schema = openapi_schema
+        return app.openapi_schema
+
+    app.openapi = custom_openapi
+
     print(f"Start Pandora Box Server，Docs: {docs_url}")
     uvicorn.run(app, host=args.server, port=args.port)
+
+
+# 创建自定义 OpenAPI 函数
 
 def main():
     parser = argparse.ArgumentParser(prog="pbox")
