@@ -39,13 +39,14 @@ The HTTP Server is primarily used with the `pbox` command, which includes the cr
 $ pbox -h
 ```
 ```commandline
-usage: pbox [-h] {s,a,k} ...
+usage: pbox [-h] {s,a,l,d} ...
 
 positional arguments:
-  {s,a,k}
+  {s,a,l,d}
     s         Start Pandora Box Server
-    a         Add a new API KEY
-    k         List all API KEYS
+    a         Add new API KEY
+    l         List all API KEYS
+    d         Del API KEY
 
 options:
   -h, --help  show this help message and exit
@@ -64,12 +65,17 @@ You can create multiple API KEYS through the above method.
 
 Then, you can view all the API KEYS you have created by following command:
 ```commandline
-$ pbox k
+$ pbox l
 ```
 ```text
 API-KEY-1
 ...
 API-KEY-n
+```
+
+And, you can delete a api_key by:
+```commandline
+$ pbox d <your-api-key>
 ```
 
 Now, you can start the HTTP Server using the this command:
@@ -123,7 +129,7 @@ You will receive a kernel_id, which is the unique identifier for the Python box.
 #### List Python SandBox
 The current Python environments that have been created can be queried in the following way.
 ```commandline
-$ curl http://127.0.0.1:9501/kernels \
+$ curl http://127.0.0.1:9501/sandbox \
 -H "API-KEY: your-api-key"
 ```
 ```json
@@ -235,7 +241,7 @@ csb_manager = CodeSandBoxManager()
 kernel_id = csb_manager.create_sandbox("your-api-key")
 
 # list sandbox
-csb_manager.kernels("your-api-key")
+csb_manager.get_sandbox("your-api-key")
 
 # execute code
 result = csb_manager.execute_code (

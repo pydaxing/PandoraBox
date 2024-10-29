@@ -10,6 +10,13 @@ class CodeSandBoxManager:
         self.sandboxes = {}  # 存储kernel_id和其对应的sandbox实例
         self.api_key_to_kernel_ids = {}  # 新增：存储API_KEY与kernel_id的映射
 
+    def _check_kernel_id(self, api_key, kernel_id):
+        if not self.api_key_to_kernel_ids.get(api_key, None):
+            return f"No sandbox found, Please create a sandbox first.", False
+        if kernel_id not in self.api_key_to_kernel_ids.get(api_key):
+            return f"Invalid KERNEL_ID", False
+        return "Success.", True
+
     def create_sandbox(self, api_key):
         try:
             kernel_id = str(uuid.uuid4())
@@ -32,11 +39,11 @@ class CodeSandBoxManager:
             return None
     
     
-    def kernels(self, api_key):
+    def get_sandbox(self, api_key):
         try:
             kernel_ids = self.api_key_to_kernel_ids.get(api_key, [])
             if not kernel_ids:  # 如果列表为空
-                return f"No kernels found for {api_key}. Please create a kernel first."
+                return f"No sandbox found, Please create a sandbox first."
             return kernel_ids
         except Exception as e:
             print(str(e))
@@ -45,7 +52,8 @@ class CodeSandBoxManager:
 
     def close_sandbox(self, api_key, kernel_id):
         try:
-            if kernel_id in self.sandboxes:
+            msg, check_status = self._check_kernel_id(api_key, kernel_id)
+            if check_status:
                 sandbox = self.sandboxes.pop(kernel_id, None)
                 if sandbox:
                     sandbox.close()
@@ -54,7 +62,7 @@ class CodeSandBoxManager:
                         _ = self.api_key_to_kernel_ids.pop(api_key, None)
                 return True
             else:
-                return f"No kernels found for {api_key}. Please create a kernel first."
+                return msg
         except Exception as e:
             print(str(e))
             return False
@@ -62,11 +70,12 @@ class CodeSandBoxManager:
 
     def execute_code(self, api_key, kernel_id, code):
         try:
-            if kernel_id in self.sandboxes:
+            msg, check_status = self._check_kernel_id(api_key, kernel_id)
+            if check_status:
                 sandbox = self.sandboxes[kernel_id]
                 return sandbox.execute_code(code)
             else:
-                return f"No kernels found for {api_key}. Please create a kernel first."
+                return msg
         except Exception as e:
             print(str(e))
             return False

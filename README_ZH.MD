@@ -39,13 +39,14 @@ HTTP服务器主要通过`pbox`命令使用，该命令包括创建和查询API 
 $ pbox -h
 ```
 ```commandline
-usage: pbox [-h] {s,a,k} ...
+usage: pbox [-h] {s,a,l,d} ...
 
 positional arguments:
-  {s,a,k}
+  {s,a,l,d}
     s         Start Pandora Box Server
-    a         Add a new API KEY
-    k         List all API KEYS
+    a         Add new API KEY
+    l         List all API KEYS
+    d         Del API KEY
 
 options:
   -h, --help  show this help message and exit
@@ -64,13 +65,19 @@ pb-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 然后，你可以通过以下命令查看你创建的所有API KEY：
 ```commandline
-$ pbox k
+$ pbox l
 ```
 ```text
 API-KEY-1
 ...
 API-KEY-n
 ```
+
+你还可以通过以下命令删除指定的API KEY：
+```commandline
+$ pbox d <your-api-key>
+```
+
 
 现在，你可以使用以下命令启动HTTP服务器：
 ```commandline
@@ -123,7 +130,7 @@ $ curl http://127.0.0.1:9501/create \
 #### 查询 Python SandBox
 当前已创建的Python环境可以通过以下方式查询：
 ```commandline
-$ curl http://127.0.0.1:9501/kernels \
+$ curl http://127.0.0.1:9501/sandbox \
 -H "API-KEY: your-api-key"
 ```
 ```json
@@ -234,7 +241,7 @@ csb_manager = CodeSandBoxManager()
 kernel_id = csb_manager.create_sandbox("your-api-key")
 
 # list sandbox
-csb_manager.kernels("your-api-key")
+csb_manager.get_sandbox("your-api-key")
 
 # execute code
 result = csb_manager.execute_code (
