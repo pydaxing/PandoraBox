@@ -1,7 +1,7 @@
 # Pandora Box: A Revolutionary Open-Source Python Environment
 ![](./logo.jpg)
 
-[English](./README.MD) | [中文](./README_ZH.MD)
+[English](./README.MD) | [中文](./README_ZH.MD) | [Blog](https://lengm.cn/post/20240622_pandora_box/)
 
 In the era of Large Language Models (LLMs), Pandora Box emerges as a pioneering open-source Python package, specifically designed to empower developers and innovators in the creation of LLM-based applications and agents. This versatile tool is engineered to provide a robust and secure Python environment, facilitating the seamless integration and execution of LLM-driven projects. Completely free and easily deployable via pip install, Pandora Box is set to revolutionize the way developers approach LLM-based development.
 
